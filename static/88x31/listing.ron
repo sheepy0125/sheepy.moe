@@ -1,0 +1,67 @@
+[
+    Button88x31 (
+        alt: r#"A large 3DS logo spanning the entire button."#,
+        href: r#"https://3ds.hacks.guide"#,
+        src: r#"3ds.png"#,
+    ),
+    Button88x31 (
+        alt: r#"Creative commons "by" and "share alike" logo."#,
+        href: r#"https://creativecommons.org/"#,
+        src: r#"cc-by-sa.gif"#,
+    ),
+    Button88x31 (
+        alt: r#"A representation of a wired ANSI Colemak keyboard with an animation typing out "Colemak" and return."#,
+        href: r#"https://colemak.com/"#,
+        src: r#"colemak.png"#,
+    ),
+    Button88x31 (
+        alt: r#"A parody danger warning banner for "DHMO," also known as dihydrogen monoxide or water."#,
+        href: r#"https://dhmo.org/"#,
+        src: r#"danger-dhmo.gif"#,
+    ),
+    Button88x31 (
+        alt: r#"The Firefox browser logo with the text "tested on Firefox" in the logo colors."#,
+        href: r#"https://www.mozilla.org/"#,
+        src: r#"firefox.gif"#,
+    ),
+    Button88x31 (
+        alt: r#"The IfranView image viewer logo."#,
+        href: r#"https://www.irfanview.com/"#,
+        src: r#"irfanview.png"#,
+    ),
+    Button88x31 (
+        alt: r#"The Lemmy social media logo next to large text stating "Lemmy" and a subtitle of "join-lemmy.org.""#,
+        href: r#"https://join-lemmy.org/"#,
+        src: r#"join-lemmy.png"#,
+    ),
+    Button88x31 (
+        alt: r#"The Mastodon social media platform logo with text reading "Mastodon.""#,
+        href: r#"https://wetdry.world/"#,
+        src: r#"mastodon.png"#,
+    ),
+    Button88x31 (
+        alt: r#"A badge with text reading "made by a human" to the right of a drawn smily face."#,
+        href: r#"https://wetdry.world/@andycarolan@social.lol/112015952369558035"#,
+        src: r#"made-by-a-human.png"#,
+    ),
+    Button88x31 (
+        alt: r#"A parody "powered by" button reading "Powered by THE VOID" with a black box to the right."#,
+        href: r#"http://www.turnofftheinternet.com/"#,
+        src: r#"powered-by-the-void.gif"#,
+    ),
+    Button88x31 (
+        alt: r#"The transgender flag."#,
+        href: r#"https://genderdysphoria.fyi/"#,
+        src: r#"trans.png"#,
+    ),
+    Button88x31 (
+        alt: r#"A parody banner reading "Best [viewed with] 24-bit Truecolour.""#,
+        href: r#"javascript:void(0);"#,
+        src: r#"truecolour-solaris.png"#,
+    ),
+    Button88x31 (
+        alt: r#"The Xenia Linux mascot with text reading "Linux NOW!""#,
+        href: r#"https://xenia-linux-site.glitch.me/"#,
+        src: r#"xenia-now.gif"#,
+    ),
+]

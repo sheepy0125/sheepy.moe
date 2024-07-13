@@ -1,0 +1,470 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Roboto Serif";
+        font-style: normal;
+        font-weight: 400;
+        font-display: auto;
+        src: url("/static/RobotoSerif.ttf") format("truetype");
+        font-display: swap;
+    }
+    @font-face {
+        font-family: "Open Dyslexic";
+        font-style: normal;
+        font-weight: 400;
+        font-display: auto;
+        src: url("/static/OpenDyslexic.woff2") format("woff2");
+        font-display: swap;
+    }
+    @font-face {
+        font-family: "Comic Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: auto;
+        src: url("/static/ComicSans.ttf") format("truetype");
+        font-display: swap;
+    }
+}
+
+@layer components {
+    /* widgets and cards */
+    .widget-lite {
+        /* light */
+        @apply shadow-light-blahaj-regular;
+        /* dark */
+        @apply dark:shadow-dark-blahaj-regular;
+    }
+    .widget {
+        @apply widget-lite;
+        @apply max-w-5xl lg:w-5xl;
+        @apply mx-4;
+        @apply p-2 md:p-4;
+        @apply border-r-2 border-b-2;
+        /* light */
+        @apply bg-light-blåhaj-500;
+        @apply text-dark-blåhaj-600;
+        @apply border-light-blåhaj-500;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-400;
+        @apply dark:text-light-blåhaj-300;
+        @apply dark:border-light-blåhaj-300;
+    }
+    .card {
+        @apply max-w-full;
+        @apply lg:widget-lite;
+        @apply border-r-2 border-b-2;
+        /* light */
+        @apply border-light-blåhaj-500;
+        /* dark */
+        @apply dark:border-light-blåhaj-300;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .depress-active {
+            @apply translate-x-1 translate-y-1;
+        }
+        .depress-active-horizontal {
+            @apply translate-x-1 translate-y-0;
+        }
+        .depress-active-with-shadow {
+            @apply depress-active;
+            /* light */
+            box-shadow: 4px 4px 0px 0px #fff;
+            /* dark */
+            /* @apply dark:shadow-dark-blahaj-depress; */
+        }
+        .depress-active-with-shadow-horizontal {
+            @apply depress-active-horizontal;
+            @apply border-l-2;
+            /* light */
+            @apply shadow-light-blahaj-depress-horizontal;
+            /* dark */
+            @apply dark:shadow-dark-blahaj-depress-horizontal;
+        }
+    }
+
+    /* buttons */
+    .button-lighter {
+        @apply hover:button-lighter-selected;
+        /* light */
+        @apply bg-light-blåhaj-300;
+        @apply border-light-blåhaj-500;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-200;
+        @apply dark:border-light-blåhaj-300;
+        @apply dark:text-primary-pink;
+    }
+    .button-lighter-selected {
+        /* light */
+        @apply bg-light-blåhaj-600;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-100;
+    }
+    .button-darker {
+        /* light */
+        @apply bg-light-blåhaj-300;
+        @apply text-inherit;
+        /* dark */
+        @apply dark:text-light-blåhaj-400;
+        @apply dark:bg-dark-blåhaj-300;
+    }
+    .button-darker-selected {
+        /* light */
+        @apply bg-light-blåhaj-600;
+        /* dark */
+        @apply dark:bg-primary-pink;
+        @apply dark:text-primary-peach;
+    }
+
+    /* hierarchy */
+    .emphasis-text {
+        @apply underline;
+        @apply font-black;
+        /* light */
+        @apply bg-primary-pink;
+        @apply text-light-blåhaj-300;
+        @apply decoration-light-blåhaj-300;
+        @apply hover:bg-dark-blåhaj-300;
+        @apply hover:decoration-light-blåhaj-500;
+        /* dark */
+        @apply dark:bg-light-blåhaj-500;
+        @apply dark:text-dark-blåhaj-400;
+        @apply dark:decoration-pink-500; /* fixme: use custom color */
+        @apply hover:dark:bg-light-blåhaj-600;
+        @apply hover:dark:decoration-dark-blåhaj-300;
+    }
+    .subtle-emphasis-text {
+        /* light */
+        @apply text-dark-blåhaj-600;
+        @apply hover:bg-light-blåhaj-700; /* fixme: make darker */
+        /* dark */
+        @apply dark:text-light-blåhaj-300;
+        @apply hover:dark:bg-dark-blåhaj-400;
+    }
+    .subtle-text {
+        @apply font-thin;
+        /* light */
+        @apply text-dark-blåhaj-500;
+        /* dark */
+        @apply dark:text-light-blåhaj-500;
+    }
+    .section-header {
+        @apply font-bold;
+        @apply w-max;
+        @apply mb-2;
+        @apply mx-auto md:mx-0;
+        @apply text-2xl;
+        @apply underline;
+        /* light */
+        @apply hover:bg-light-blåhaj-600;
+        /* dark */
+        @apply hover:dark:bg-dark-blåhaj-500;
+    }
+    .subsection {
+        @apply font-bold;
+        @apply text-lg;
+        @apply mt-4;
+        @apply w-max;
+        @apply subtle-emphasis-text;
+    }
+    a:not(.not-link a, a.not-link),
+    .link {
+        @apply subtle-emphasis-text;
+        @apply italic;
+        /* light */
+        @apply text-dark-blåhaj-300;
+        /* dark */
+        @apply dark:text-light-blåhaj-600;
+    }
+
+    /* banner */
+    #banner {
+        /* light */
+        @apply bg-primary-peach;
+        @apply text-dark-blåhaj-600;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-200;
+        @apply dark:text-light-blåhaj-300;
+    }
+
+    /* pill */
+    .pill-holder {
+        @apply overflow-x-auto;
+        @apply overflow-y-hidden;
+        @apply flex;
+        @apply w-max;
+        @apply mx-auto md:mx-2;
+        @apply gap-2;
+        @apply my-auto;
+        @apply rounded-sm; /* todo: decide on rounded corners or not */
+    }
+    .pill {
+        /* Note: `group` cannot be `@apply`ed
+         * (see https://github.com/tailwindlabs/tailwindcss/issues/7844#issuecomment-1112402915)
+         * therefore there is `hover` styling for each pill in the class name.*/
+        @apply flex;
+        @apply border-2;
+        /* light */
+        @apply border-primary-peach;
+        /* dark */
+        @apply dark:border-primary-pink;
+    }
+    .pill-label {
+        @apply font-semibold;
+        @apply border-r-2;
+        /* light */
+        @apply border-primary-peach;
+        /* dark */
+        @apply dark:border-primary-pink;
+    }
+    .pill-label,
+    .pill-value {
+        @apply px-2;
+    }
+    .pill-label {
+        /* light */
+        @apply bg-light-blåhaj-100;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-200;
+    }
+    .pill-value {
+        /* light */
+        @apply bg-primary-peach;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-300;
+    }
+
+    /* navbar... area (xxx: this is kind of a mess) */
+    .mobile-adjoined-header-asides {
+        @apply w-max lg:min-w-32 flex-none;
+        @apply mx-auto;
+        @apply flex;
+        @apply flex-row lg:flex-col;
+        @apply py-4 lg:py-0;
+        @apply gap-4;
+        @apply mx-auto;
+    }
+    .adjoined-header-border-shenanigans {
+        @apply border-t-2 border-l-2 lg:border-t-0 lg:border-l-0;
+    }
+    nav {
+        @apply card;
+        @apply adjoined-header-border-shenanigans;
+        @apply max-w-full md:max-w-max lg:max-w-full;
+        /* light */
+        @apply bg-light-blåhaj-400;
+        @apply text-dark-blåhaj-600;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-400;
+        @apply dark:text-light-blåhaj-200;
+    }
+    .nav-button-selected {
+        @apply font-semibold;
+        @apply button-darker-selected;
+    }
+    .nav-button-holder {
+        @apply w-full;
+        @apply gap-1;
+        /* light */
+        @apply bg-light-blåhaj-300;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-400;
+    }
+    .nav-button {
+        @apply h-8 min-w-48 md:min-w-32 lg:w-full;
+        @apply block md:inline lg:block;
+        @apply button-darker;
+        @apply hover:nav-button-selected;
+    }
+    .nav-button[selected] {
+        @apply nav-button-selected;
+    }
+    /* nav relations to mobile asides */
+    .nav-and-adjoined-aside {
+        @apply max-w-full;
+        @apply flex flex-row lg:flex-col;
+        @apply gap-4 lg:gap-0;
+    }
+    /* theme icon adjoined to nav */
+    .theme-icon {
+        @apply card;
+        @apply lg:border-t-2 lg:-translate-y-[2px] !important;
+        @apply relative; /* for counter in extra-small header */
+        @apply h-max;
+        @apply adjoined-header-border-shenanigans;
+        @apply active:motion-safe:depress-active-horizontal md:active:motion-safe:depress-active lg:active:motion-safe:depress-active-with-shadow-horizontal;
+        @apply block;
+        @apply button-lighter hover:button-lighter-selected;
+        @apply w-max lg:w-full;
+        /* light */
+        @apply border-light-blåhaj-500;
+        /* dark */
+        @apply dark:border-light-blåhaj-300;
+    }
+    .theme-icon svg {
+        @apply mx-auto;
+        @apply w-8;
+        @apply h-8;
+    }
+    /* counter adjoined to nav for mobile view but otherwise carded */
+    .counter {
+        @apply card;
+        @apply fixed md:block top-10 -left-[3.25rem] md:top-0 md:left-0;
+        @apply relative;
+        @apply active:motion-safe:depress-active-horizontal md:active:motion-safe:depress-active lg:active:motion-safe:depress-active-with-shadow;
+        @apply adjoined-header-border-shenanigans;
+        @apply h-max min-w-fit max-w-32 lg:w-32;
+        @apply button-lighter hover:button-lighter-selected;
+        @apply overflow-hidden;
+        /* light */
+        @apply text-black;
+        /* dark */
+        @apply dark:text-light-blåhaj-300;
+    }
+    .count {
+        @apply text-2xl;
+        @apply h-8 lg:h-fit;
+        @apply overflow-hidden;
+    }
+    .counter-cooldown {
+        @apply hidden;
+        @apply absolute top-0 left-0;
+        @apply w-full h-full;
+        @apply z-50;
+        /* light */
+        @apply bg-light-blåhaj-600/80;
+        /* dark */
+        @apply dark:bg-primary-pink/40;
+    }
+
+    /* 88x31 */
+    .buttons-88x31 {
+        @apply overflow-auto;
+        @apply max-w-max;
+        @apply mx-auto;
+        @apply p-8;
+    }
+    .buttons-88x31 stamp {
+        @apply active:depress-active;
+        @apply inline-block;
+        @apply mx-1;
+    }
+
+    /* lists */
+    .list-odd-even tr {
+        /* light */
+        @apply even:bg-inherit;
+        @apply odd:bg-light-blåhaj-400;
+        /* dark */
+        @apply dark:even:bg-inherit;
+        @apply dark:odd:bg-dark-blåhaj-500;
+    }
+    td,
+    th {
+        @apply px-4;
+    }
+    table {
+        @apply border-2;
+        /* light */
+        @apply border-light-blåhaj-700;
+        /* dark */
+        @apply dark:border-primary-pink;
+    }
+    th {
+        @apply text-left;
+    }
+    li {
+        list-style-type: disc;
+        @apply ml-2;
+    }
+
+    /* text */
+    h2 {
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-lg;
+    }
+
+    /* input */
+    select {
+        /* light */
+        @apply border border-primary-peach;
+        /* dark */
+        @apply dark:border dark:border-primary-pink;
+        @apply dark:bg-dark-blåhaj-200;
+
+        @apply m-2 border-2 w-full md:w-48 h-8;
+    }
+    fieldset {
+        @apply p-4;
+    }
+    fieldset,
+    legend {
+        @apply px-2;
+        @apply border-2;
+        /* light */
+        @apply bg-light-blåhaj-600;
+        @apply border-light-blåhaj-500;
+        /* dark */
+        @apply dark:bg-dark-blåhaj-500;
+        @apply dark:border-light-blåhaj-300;
+    }
+    legend {
+        @apply text-xl;
+    }
+    /* https://flowbite.com/docs/forms/toggle/ */
+    .toggle-outer-label {
+        @apply inline-flex gap-2 items-center cursor-pointer;
+    }
+    .toggle-input {
+        @apply sr-only;
+    }
+    .toggle-sibling {
+        @apply relative w-8 h-4 bg-gray-200 rounded-full peer-focus:ring-4 peer-focus:ring-blue-300;
+        @apply dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full;
+        @apply rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''];
+        @apply after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600;
+        @apply after:absolute after:bg-white after:border-gray-300 after:border;
+    }
+
+    /* page */
+    br {
+        @apply mb-4;
+    }
+    p {
+        @apply mb-2;
+    }
+    .split-content {
+        @apply gap-4;
+        @apply py-4;
+        @apply lg:flex;
+        @apply lg:justify-center;
+        @apply lg:max-w-max max-w-full;
+        @apply mx-auto;
+    }
+    .widget-banner {
+        @apply md:flex;
+        @apply border-b-2;
+        @apply pb-2;
+        /* light */
+        @apply border-primary-pink;
+        /* dark */
+        @apply dark:border-primary-pink;
+    }
+    /* FIXME: Reduced motion */
+    @media (prefers-reduced-motion: no-preference) {
+        .marquee {
+            animation: marquee 16s linear infinite alternate;
+        }
+    }
+
+    /* blog post */
+    .markdown {
+        @apply prose max-w-max;
+        @apply prose-slate dark:prose-invert;
+        @apply prose-h1:text-3xl;
+    }
+}

@@ -1,0 +1,8 @@
+[build]
+target = "index.html"
+release = false
+dist = "dist"
+public_url = "/static/dist/"
+filehash = true
+inject_scripts = true
+offline = false

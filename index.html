@@ -1,0 +1,62 @@
+<!doctype html>
+<html class="--sentinel-ssr-html-class--">
+    <head>
+        <style>
+            html.font-roboto-serif {
+                font-family: "Roboto Serif";
+            }
+            html.font-open-dyslexic {
+                font-family: "Open Dyslexic";
+            }
+            html.font-open-dyslexic > body {
+                /* we set this on body so rem can be 100% */
+                font-size: 85%;
+            }
+            html.font-comic-sans {
+                font-family: "Comic Sans";
+            }
+            :root.light {
+                background: radial-gradient(
+                    circle at 1px 1px,
+                    #24146820 2px,
+                    #ffd5e6 /* 0 */
+                );
+            }
+            html.textured-background-true.light {
+                background-size: 1.5rem 1.5rem;
+                background-repeat: repeat;
+                background-position: 0.5rem center;
+                position: relative;
+            }
+            :root.dark {
+                background-color: #1e1e1e;
+            }
+            html.textured-background-true.dark {
+                background: conic-gradient(
+                    #1e1e1e 90deg,
+                    #212121 90deg 180deg,
+                    #1e1e1e 180deg 270deg,
+                    #212121 270deg
+                );
+                background-repeat: repeat;
+                background-size: 60px 60px;
+                background-position: top left;
+            }
+        </style>
+        <title>sheepy.moe</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link data-trunk preload rel="css" href="./static/output.css" />
+        <link data-trunk rel="icon" href="./static/favicon.ico" />
+        <link
+            data-trunk
+            rel="rust"
+            data-bin="hydrate"
+            data-cargo-features="hydration"
+        />
+        <script>
+            window.ssr_state = `--sentinel-ssr-state--`; // remember to escape backticks :)
+        </script>
+    </head>
+    <body></body>
+</html>

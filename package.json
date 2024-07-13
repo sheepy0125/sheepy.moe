@@ -1,0 +1,23 @@
+{
+    "name": "sheepy.moe",
+    "version": "1.0.0",
+    "description": "the \"sheepy.moe\" website",
+    "main": "index.js",
+    "author": "sheepy0125 <sheepy404@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "concurrently": "^8.2.2",
+        "tailwindcss": "^3.4.3",
+        "@patternfly/patternfly": "^5.3.0"
+    },
+    "scripts": {
+        "dev": "conc -r \"yarn dev:backend\" \"yarn dev:frontend\" \"yarn dev:tailwindcss\"",
+        "dev:frontend": "watchfiles \"trunk build --release\" src static",
+        "dev:backend": "cargo watch --ignore count.txt --ignore src/const_expr_constants.rs --ignore dist --ignore blog -x \"r --features ssr --bin server\"",
+        "dev:tailwindcss": "tailwindcss -c tailwind.config.cts -i ./static/input.postcss -o ./static/output.css --minify --watch"
+    },
+    "type": "module",
+    "devDependencies": {
+        "@tailwindcss/typography": "^0.5.13"
+    }
+}
