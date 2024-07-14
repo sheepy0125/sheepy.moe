@@ -5,7 +5,6 @@ use crate::{
     types::{Configuration, Counter, PageState, SSRState},
 };
 
-use _ServerAppProps::ssr_state;
 use bounce::{use_atom, BounceRoot};
 use html::RenderError;
 use log::debug;

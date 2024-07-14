@@ -65,7 +65,7 @@ pub fn counter_component() -> Html {
                 // need to use JavaScript I reckon.
 
                 const DELAY_TIME_MS: u64 = 2000;
-                const DELTATIME_MS: u64 = 10;
+                const DELTATIME_MS: u64 = 1;
                 const STEPS: u64 = DELAY_TIME_MS / DELTATIME_MS;
 
                 let start = SystemTime::now();
