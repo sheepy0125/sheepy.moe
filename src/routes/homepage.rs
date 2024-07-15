@@ -96,8 +96,8 @@ pub fn homepage_component() -> Html {
                                     </tr>
                                     <tr>
                                         <td class="font-semibold text-center">{"Mastodon  "}</td> // hacky fix for weird spacing
-                                        <td class="subtle-emphasis-text">
-                                            <a href={EXTERNAL_MASTODON} class="subtle-underline">{"@sheepy0125@wetdry.world"}</a>
+                                        <td class="subtle-emphasis-text subtle-underline">
+                                            <a rel="me" href={EXTERNAL_MASTODON}>{"@sheepy0125@wetdry.world"}</a>
                                         </td>
                                     </tr>
                                     <tr>
