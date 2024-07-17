@@ -1,7 +1,7 @@
 use crate::{
     components::{counter::Counter, navbar::Navbar, theme_toggle::ThemeToggle},
     router::Route,
-    types::{Configuration, PageState},
+    types::Configuration,
 };
 
 use bounce::use_atom;
@@ -17,14 +17,10 @@ pub struct MainPageContentProps {
 #[function_component(MainPageContent)]
 pub fn main_page_content_component(props: &MainPageContentProps) -> Html {
     let config = use_atom::<Configuration>();
-    let page_state = use_atom::<PageState>();
 
     html! {
          <div class="w-full">
-            if config.show_banner
-                || page_state.yew_route == Some(Route::Homepage)
-                || (page_state.yew_route.is_none() && page_state.route == Some("/home".to_string()))
-            {
+            if config.show_banner || props.page == Route::Homepage {
                 <header id="banner">
                     <div class="w-max mx-auto">
                         <h1 class="text-3xl font-bold underline-offset-2">

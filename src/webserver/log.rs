@@ -4,10 +4,10 @@ use warp::filters::log::Info;
 pub fn get_logger(info: Info) {
     if info.status() == warp::http::StatusCode::NOT_FOUND {
         return;
-   }
+    }
 
     info!(
-        "{}: {} to {} returned {} and took {}ms",
+        "{}: {} to {} returned {} and took {}us",
         info.request_headers()
             .get("X-Real-IP")
             .map_or_else(
@@ -18,6 +18,6 @@ pub fn get_logger(info: Info) {
         info.method(),
         info.path(),
         info.status(),
-        info.elapsed().as_millis()
+        info.elapsed().as_micros()
     );
 }

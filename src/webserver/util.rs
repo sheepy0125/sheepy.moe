@@ -14,7 +14,6 @@ pub fn redirect_sanitize(queries: HashMap<String, String>) -> Uri {
     }
 }
 
-/// Update configuration cookie
 pub fn reply_with_update_cookie<V>(key: &str, value: &V, reply: impl Reply) -> impl Reply
 where
     V: ?Sized + Serialize,

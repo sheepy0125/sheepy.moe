@@ -3,10 +3,21 @@
 use crate::webserver::{constants::COUNT_FILE, log::get_logger, util::redirect_sanitize};
 
 use std::{collections::HashMap, sync::atomic::AtomicUsize, sync::atomic::Ordering};
+use tokio::time::{sleep, Duration};
 use warp::{reject::Rejection, reply::Reply, Filter};
 
 pub static GLOBAL_COUNTER: AtomicUsize = AtomicUsize::new(0);
 
+/// Load the counter and save it periodically
+pub async fn counter_load_save_loop() {
+    load_count().await;
+    loop {
+        save_count().await;
+        sleep(Duration::from_secs(60 * 10)).await; // 10 minutes
+    }
+}
+
+/// Save the count to the count file
 pub async fn save_count() {
     let count = GLOBAL_COUNTER.load(std::sync::atomic::Ordering::Relaxed);
     let count_str = format!("{count}");
@@ -14,6 +25,7 @@ pub async fn save_count() {
         .await
         .unwrap();
 }
+/// Load the count from the count file
 pub async fn load_count() {
     let count = tokio::fs::read_to_string(COUNT_FILE)
         .await

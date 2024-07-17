@@ -1,22 +1,19 @@
 //! "sheepy.moe" website server!
 
-use dotenvy::dotenv;
 use sheepy_moe::webserver::{
     blog_post_routes::blog_post_routes,
-    counter_routes::{count_increment, count_increment_redirect, load_count, save_count},
+    counter_routes::{count_increment, count_increment_redirect, counter_load_save_loop},
     settings::settings_update,
     static_routes::{dist_routes, static_routes},
     theme_change_routes::theme_change_redirect,
     yew_routes::yew_ssr,
 };
 
+use dotenvy::dotenv;
 use jemallocator::Jemalloc;
 use log::info;
 use std::io::Write;
-use tokio::{
-    spawn,
-    time::{sleep, Duration},
-};
+use tokio::spawn;
 use warp::{http::Uri, Filter as _};
 
 #[cfg(unix)]
@@ -40,13 +37,7 @@ async fn main() {
     })
     .init();
 
-    spawn(async move {
-        load_count().await;
-        loop {
-            save_count().await;
-            sleep(Duration::from_secs(60 * 10)).await; // 10 minutes
-        }
-    });
+    spawn(counter_load_save_loop());
 
     let home_redirect =
         || warp::path::end().map(|| warp::redirect::permanent(Uri::from_static("/home")));
@@ -60,6 +51,7 @@ async fn main() {
         .or(home_redirect())
         // This includes the 404 handler!
         .or(yew_ssr());
+
     // Run Warp server
     info!("running on port {port}!");
     warp::serve(routes).run(([0; 4], port)).await;

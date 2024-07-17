@@ -1,4 +1,4 @@
-//! Client and server app entry points. Contains the router, too!
+//! Client and server app entry points
 
 use crate::{
     router::{switch, Route},
@@ -14,29 +14,6 @@ use yew_router::{history::AnyHistory, prelude::*};
 
 pub static PAGE_RENDER_COUNT: AtomicUsize = AtomicUsize::new(0);
 
-#[function_component(ClientApp)]
-pub fn csr_app_component() -> Html {
-    use crate::services::state::get_initial_ssr_state;
-
-    let route = use_state_eq(|| None);
-    let route_callback = {
-        let route = route.clone();
-        Callback::from(move |r| route.set(Some(r)))
-    };
-
-    html! {
-        <BounceRoot>
-            <InitialPageStateSetter
-                page_state={PageState::new(None)}
-                ssr_state={get_initial_ssr_state()}
-                route={(*route).clone()}
-            />
-            <Suspense>
-                <AppRoute on_render_route={route_callback.clone()} history={None} />
-            </Suspense>
-        </BounceRoot>
-    }
-}
 #[derive(PartialEq, Properties)]
 struct AppRouteProps {
     on_render_route: Option<Callback<Route>>,
@@ -71,6 +48,30 @@ fn app_route(props: &AppRouteProps) -> HtmlResult {
             </Router>
         }
     })
+}
+
+#[function_component(ClientApp)]
+pub fn csr_app_component() -> Html {
+    use crate::services::state::get_initial_ssr_state;
+
+    let route = use_state_eq(|| None);
+    let route_callback = {
+        let route = route.clone();
+        Callback::from(move |r| route.set(Some(r)))
+    };
+
+    html! {
+        <BounceRoot>
+            <InitialPageStateSetter
+                page_state={PageState::new(None)}
+                ssr_state={get_initial_ssr_state()}
+                route={(*route).clone()}
+            />
+            <Suspense>
+                <AppRoute on_render_route={route_callback.clone()} history={None} />
+            </Suspense>
+        </BounceRoot>
+    }
 }
 
 #[derive(Properties, PartialEq, Default)]
@@ -135,6 +136,7 @@ fn initial_page_state_setter_component(props: &PageStateSetterProps) -> Html {
             ..(*page_state).clone()
         });
     }
+    // workaround for yew.rs hydration: a component cannot be empty
     html! {
          <span></span>
     }

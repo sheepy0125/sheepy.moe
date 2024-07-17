@@ -4,9 +4,8 @@ use crate::{
 };
 
 use bounce::use_atom;
-use gloo_net::http::Request;
 use std::time::Duration;
-use wasm_bindgen::UnwrapThrowExt as _;
+use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
 use wasmtimer::{std::SystemTime, tokio::sleep};
 use web_sys::HtmlElement;
@@ -18,54 +17,50 @@ pub fn counter_component() -> Html {
     let counter = use_atom::<crate::types::Counter>();
 
     let counter_node = use_node_ref();
-    let animation_node = use_node_ref();
+    let cooldown_node = use_node_ref();
 
     let on_increment_count = {
         let counter = counter.clone();
-        let animation_node = animation_node.clone();
+        let cooldown_node = cooldown_node.clone();
         let counter_node = counter_node.clone();
         Callback::from(move |_: MouseEvent| {
-            let counter_node = counter_node.clone();
-            let animation_node = animation_node.clone();
             let counter = counter.clone();
 
+            let counter_element = counter_node.cast::<HtmlElement>().unwrap_throw();
+            let cooldown_element = cooldown_node.cast::<HtmlElement>().unwrap_throw();
+
+            // Update counter to predicted value
             counter.set(crate::types::Counter::new(**counter + 1));
 
-            // Disable counter for the meantime
-            counter_node
-                .cast::<HtmlElement>()
-                .unwrap_throw()
-                .style()
-                .set_property("pointer-events", "none")
-                .unwrap_throw();
-
             spawn_local(async move {
-                let resp = Request::get("/count-increment").send().await;
-                if let Ok(poggers) = resp {
-                    let text = poggers.text().await.ok();
-                    let count = text.and_then(|text| text.parse::<usize>().ok());
-                    if let Some(count) = count {
-                        counter.set(crate::types::Counter::new(count));
-                    }
-                }
+                // Send request
+                let resp = gloo_net::http::Request::get("/count-increment")
+                    .send()
+                    .await
+                    .unwrap_throw();
+                let text = resp.text().await.unwrap_throw();
+                let count = text.parse::<usize>().unwrap_throw();
+                counter.set(crate::types::Counter::new(count));
 
-                let animation_wrapper = animation_node.cast::<HtmlElement>().unwrap_throw();
-
-                animation_wrapper
+                // Counter cooldown
+                counter_element
+                    .style()
+                    .set_property("pointer-events", "none")
+                    .unwrap_throw();
+                cooldown_element
                     .style()
                     .set_property("display", "block")
                     .unwrap_throw();
 
-                // Cooldown animation. I can't use `wasmtimer::interval` nor `wasmtimer::sleep`
-                // "typically," because they produce really inconsistent results. I can hypothesize
-                // that it has something to do with polling to not be ready a lot, or something,
-                // and for the task to be a lower priority. Nonetheless, this hacky workaround of
-                // sleeping for 0ms in a loop that checks if a next deltatime poll should happen
-                // is the only thing I could get working. If I wanted to make this not hacky, I'd
-                // need to use JavaScript I reckon.
+                // fixme: using [`wasmtimer::sleep`] produces inconsistent results.
+                // this shouldn't be the case, since `spawn_local` polls on every microtask
+                // and `setTimeout` is a macrotask. nonetheless, this hacky workaround of
+                // sleeping for 0ms (which *should be* equivalent to `yield_now().await`
+                // but the latter produces the same results) works. we do need to yield,
+                // otherwise the page freezes.
 
                 const DELAY_TIME_MS: u64 = 2000;
-                const DELTATIME_MS: u64 = 1;
+                const DELTATIME_MS: u64 = 20;
                 const STEPS: u64 = DELAY_TIME_MS / DELTATIME_MS;
 
                 let start = SystemTime::now();
@@ -73,12 +68,11 @@ pub fn counter_component() -> Html {
                 for step in 1..=STEPS {
                     let percent = (step * 100) / STEPS;
 
-                    animation_wrapper
+                    cooldown_element
                         .style()
                         .set_property("width", &format!("{percent}%"))
                         .unwrap_throw();
 
-                    // This is stupid, but works.
                     while SystemTime::now()
                         .duration_since(start)
                         .map_err(|_| ())
@@ -86,19 +80,16 @@ pub fn counter_component() -> Html {
                         .as_millis()
                         < (DELTATIME_MS * step) as u128
                     {
-                        // Serves the same purpose as `yield_now().await`
                         sleep(Duration::from_millis(0)).await;
                     }
                 }
 
                 // Re-enable counter element and mask cooldown
-                counter_node
-                    .cast::<HtmlElement>()
-                    .unwrap_throw()
+                counter_element
                     .style()
                     .set_property("pointer-events", "auto")
                     .unwrap_throw();
-                animation_wrapper
+                cooldown_element
                     .style()
                     .set_property("display", "none")
                     .unwrap_throw();
@@ -127,7 +118,7 @@ pub fn counter_component() -> Html {
             ref={counter_node}
             onclick={on_increment_count}
         >
-            <div class="counter-cooldown" ref={animation_node}></div>
+            <div class="counter-cooldown" ref={cooldown_node}></div>
             <h2 class="hidden lg:block my-auto pr-2">{"counter!"}</h2>
             <span class="count">{format!("{}+", **counter)}</span>
         </a>
